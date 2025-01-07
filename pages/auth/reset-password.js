@@ -4,10 +4,10 @@ import Link from "next/link";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import { useRouter } from "next/router";
 import useForm from "../../utils/hooks/formik_hook";
-import { forgotValidate, resetPwdValidate } from "../../utils/validations/auth";
+import {  resetPwdValidate } from "../../utils/validations/auth";
 import ButtonSpinner from "../../components/loaders/buttonSpinner";
 import ErrInput from "../../components/common/errorInput";
-import { callPostApi, callPutApi } from "../../services";
+import {  callPutApi } from "../../services";
 import { toastMessage } from "../../utils/configs/toast";
 import { useSearchParams } from "next/navigation";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
@@ -19,16 +19,10 @@ const ResetPassword = () => {
 
   const handleFormSubmit = async (data) => {
     try {
-      if (!authToken) {
-        toastMessage("error", "Authation token is required!");
-        return;
-      }
       setLoading(true);
       const response = await callPutApi(
         "admin/reset-password",
-        {
-          password: data.password,
-        },
+        { ...data },
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
@@ -62,6 +56,8 @@ const ResetPassword = () => {
     initialValues: {
       password: "",
       confirmPassword: "",
+      otp: "",
+      phoneNumber: "99999999999",
       showPwd: false,
       showCnPwd: false,
     },
@@ -77,17 +73,31 @@ const ResetPassword = () => {
             <div className="mb-4">
               <Link href="/">
                 <Image
-                  src="/images/logo/brand-logo-lg.png"
+                  src="/images/logo/brand-logo.png"
                   className="mb-2"
                   alt=""
                 />
               </Link>
               <p className="mb-6 text-white">
-                Don&apos;t worry, we&apos;ll send you an email to reset your
-                password.
+                Don&apos;t worry, we&apos;ll send Otp to your number to reset
+                your password.
               </p>
             </div>
             <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3" controlId="email">
+                <Form.Label className="text-white">
+                  One Time Password
+                </Form.Label>
+                <div className="relative">
+                  <Form.Control
+                    type={"text"}
+                    placeholder="Enter Your Otp"
+                    {...formik.getFieldProps("otp")}
+                  />
+                </div>
+                <ErrInput error={touched.otp && errors.otp} />
+              </Form.Group>
+
               <Form.Group className="mb-3" controlId="email">
                 <Form.Label className="text-white">Password</Form.Label>
                 <div className="relative">
@@ -148,9 +158,7 @@ const ResetPassword = () => {
                 </Button>
               </div>
               <span className="text-white">
-                <Link href="/auth/sign-in" className="primary-text">
-                  Back to Login
-                </Link>
+                <Link href="/auth/sign-in">Back to Login</Link>
               </span>
             </Form>
           </Card.Body>

@@ -4,11 +4,12 @@ const passwordRegex =
 
 export const loginValidate = (values) => {
   const errors = {};
-  if (!values.email) {
-    errors.email = "Email is required";
-  } else if (!emailRwegex.test(values.email)) {
-    errors.email = "Invalid email address";
+  if (!values.phoneNumber) {
+    errors.phoneNumber = "Phone Number is required";
   }
+  // else if (!emailRwegex.test(values.email)) {
+  //   errors.email = "Invalid email address";
+  // }
 
   if (!values.password) {
     errors.password = "Password is required";
@@ -19,11 +20,12 @@ export const loginValidate = (values) => {
 
 export const forgotValidate = (values) => {
   const errors = {};
-  if (!values.email) {
-    errors.email = "Email is required";
-  } else if (!emailRwegex.test(values.email)) {
-    errors.email = "Invalid email address";
+  if (!values.phoneNumber) {
+    errors.phoneNumber = "Phone Number is required";
   }
+  // else if (!emailRwegex.test(values.email)) {
+  //   errors.email = "Invalid email address";
+  // }
   return errors;
 };
 
@@ -39,6 +41,12 @@ export const resetPwdValidate = (data) => {
     errors.confirmPassword = "Please enter confirm password";
   } else if (data.password !== data.confirmPassword) {
     errors.confirmPassword = "Password and Confirm password are not mached";
+  }
+  if (!data.phoneNumber) {
+    errors.phoneNumber = "Please enter Phone Number";
+  }
+  if (!data.otp) {
+    errors.otp = "Please enter Otp";
   }
   return errors;
 };

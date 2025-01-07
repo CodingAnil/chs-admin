@@ -9,13 +9,13 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        splash_screen: "url('/images/splash-screen_lineargradient.jpg')",
-        subscription_white: "url('/images/bgwhite.png')",
-        subscription_orange: "url('/images/bg-orange.png')",
-        testimonials_banner: "url('/images/review-bg.png')",
-        notfound_bg: "url('/images/not-found-bg.png')",
-      },
+      // backgroundImage: {
+      //   splash_screen: "url('/images/splash-screen_lineargradient.jpg')",
+      //   subscription_white: "url('/images/bgwhite.png')",
+      //   subscription_orange: "url('/images/bg-orange.png')",
+      //   testimonials_banner: "url('/images/review-bg.png')",
+      //   notfound_bg: "url('/images/not-found-bg.png')",
+      // },
 
       boxShadow: {
         custom: "0px 5px 14px 0px rgba(8, 15, 52, 0.1)",
@@ -28,8 +28,8 @@ module.exports = {
 
       colors: {
         secondaryShade4: "rgba(72, 74, 78, 0.5)",
-        secondprimary: "#212b36",
-        primary: "#E8A705",
+        secondprimary: "#3781f9",
+        primary: "rgb(43 241 43)",
         primary700: "#e8a705b3",
         greenColor: "#0D9F00",
         secondaryShade1: "#1A1D22",

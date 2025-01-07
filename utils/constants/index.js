@@ -176,43 +176,43 @@ export const ProjectsStats = [
 
 export const ProductStatusData = [
   {
-    title: "Total Number of Models",
+    title: "Doctors Appointments",
     items: [
-      { label: "Gent", value: 10 },
-      { label: "Elite Gent", value: 5 },
-      { label: "Exclusive Elite Gent", value: 6 },
+      { label: "Pending", value: 10 },
+      { label: "Completed", value: 5 },
+      { label: "Cancelled", value: 6 },
     ],
-    url: "/all-models",
+    url: "#",
   },
   {
-    title: "Total Number of Clients",
+    title: "Patients",
     items: [
-      { label: "Regular", value: 10 },
-      { label: "Elite", value: 30 },
+      { label: "Total Appointments", value: 10 },
+      { label: "Total Reports", value: 30 },
     ],
-    url: "/clients-management",
+    url: "#",
   },
   {
-    title: "Model Profile Pending Verification",
+    title: "Pharmacy's",
     items: [
-      { label: "New", value: 5 },
-      { label: "Resubmitted", value: 2 },
+      { label: "Total Products", value: 50 },
+      { label: "Offers", value: 2 },
     ],
-    url: "/pending-verification",
+    url: "#",
   },
   {
     title: "Revenue Summary",
     items: [
-      { label: "Monthly", value: 3 },
-      { label: "Quarterly", value: 2 },
-      { label: "Yearly", value: 6 },
+      { label: "Monthly", value: 1800 },
+      { label: "Quarterly", value: 4300 },
+      { label: "Yearly", value: 9600 },
     ],
-    url: "/payment-history",
+    url: "#",
   },
   {
     title: "Recent Complaints or Reports",
-    items: [{ label: "Complaints", value: 0 }],
-    url: "/client-feedback",
+    items: [{ label: "Complaints", value: 2 }],
+    url: "#",
   },
 ];
 
@@ -1237,17 +1237,39 @@ export const chats = [
     chatMessages: ["What's up?"],
   },
 ];
-export const travelDataArray = [
-  { city: "Brampton", startDate: "22 Aug, 2024", endDate: "22 Sep, 2024" },
-  { city: "Brampton", startDate: "22 Aug, 2024", endDate: "22 Sep, 2024" },
-  { city: "Brampton", startDate: "22 Aug, 2024", endDate: "22 Sep, 2024" },
-  { city: "Brampton", startDate: "22 Aug, 2024", endDate: "22 Sep, 2024" },
-  { city: "Brampton", startDate: "22 Aug, 2024", endDate: "22 Sep, 2024" },
-  { city: "Brampton", startDate: "22 Aug, 2024", endDate: "22 Sep, 2024" },
-  { city: "Brampton", startDate: "22 Aug, 2024", endDate: "22 Sep, 2024" },
-  { city: "Brampton", startDate: "22 Aug, 2024", endDate: "22 Sep, 2024" },
-  { city: "Brampton", startDate: "22 Aug, 2024", endDate: "22 Sep, 2024" },
-  { city: "Brampton", startDate: "22 Aug, 2024", endDate: "22 Sep, 2024" },
+export const medicineArray = [
+  {
+    name: "Pharmeasy Fish Oil",
+    rating: "4.5/5",
+    date: "22 Sep, 2024",
+    price: "$343",
+    offer: "12%",
+    file: "https://cdn01.pharmeasy.in/dam/products_otc/S31892/pharmeasy-fish-oil-1000mg-soft-gelatin-60-capsules-6.1-1731323235.jpg?dim=700x0&dpr=1&q=100",
+  },
+  {
+    name: "Soft Gelatin 60 Capsules",
+    rating: "4.5/5",
+    date: "22 Sep, 2024",
+    price: "$343",
+    offer: "12%",
+    file: "https://cdn01.pharmeasy.in/dam/products_otc/S31892/pharmeasy-fish-oil-1000mg-soft-gelatin-60-capsules-6.1-1731323235.jpg?dim=700x0&dpr=1&q=100",
+  },
+  {
+    name: "Capsules",
+    rating: "4.5/5",
+    date: "22 Sep, 2024",
+    price: "$343",
+    offer: "12%",
+    file: "https://cdn01.pharmeasy.in/dam/products_otc/S31892/pharmeasy-fish-oil-1000mg-soft-gelatin-60-capsules-6.1-1731323235.jpg?dim=700x0&dpr=1&q=100",
+  },
+  {
+    name: "Fish Oil",
+    rating: "4.5/5",
+    date: "22 Sep, 2024",
+    price: "$343",
+    offer: "12%",
+    file: "https://cdn01.pharmeasy.in/dam/products_otc/S31892/pharmeasy-fish-oil-1000mg-soft-gelatin-60-capsules-6.1-1731323235.jpg?dim=700x0&dpr=1&q=100",
+  },
 ];
 export const SocialLinksArray = [
   { id: "1", name: "Instagram", MediaFile: Instagram, connectedStatus: false },

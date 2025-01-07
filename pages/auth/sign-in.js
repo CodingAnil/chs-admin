@@ -24,19 +24,20 @@ const SignIn = () => {
   const handlePwdVisibility = () => {
     setPwdVisible(!isPwdVisible);
   };
+
   const handleFormSubmit = async (data) => {
     try {
       setLoading(true);
       const response = await callPostApi("admin/login", data);
       console.log(response, "response");
       if (response?.status) {
-        const { accessToken, ...userData } =await response.data;
+        const { accessToken, ...userData } = await response.data;
 
-        const expirationDays = data.remember ? 30 : 1;
+        const expirationDays = 30;
         setClientCookie("authToken", accessToken, expirationDays);
         setLocalData("adminDetails", userData);
         router.replace("/");
-        // handelResetData();
+        resetForm();
       } else {
         toastMessage("error", response?.message || "Login failed");
       }
@@ -58,9 +59,8 @@ const SignIn = () => {
     resetForm,
   } = useForm({
     initialValues: {
-      email: "",
+      phoneNumber: "",
       password: "",
-      remember: false,
     },
     validationFunction: loginValidate,
     handleFormSubmit: handleFormSubmit,
@@ -78,7 +78,7 @@ const SignIn = () => {
             <div className="mb-4">
               <Link href="/">
                 <Image
-                  src="/images/logo/brand-logo-lg.png"
+                  src="/images/logo/brand-logo.png"
                   className="mb-2"
                   alt=""
                 />
@@ -94,13 +94,13 @@ const SignIn = () => {
               }}
             >
               <Form.Group className="mb-3" controlId="username">
-                <Form.Label className="text-white">Email</Form.Label>
+                <Form.Label className="text-white">Phone Number</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter email address here"
-                  {...formik.getFieldProps("email")}
+                  placeholder="Enter phoneNumber here"
+                  {...formik.getFieldProps("phoneNumber")}
                 />
-                <ErrInput error={touched.email && errors.email} />
+                <ErrInput error={touched.phoneNumber && errors.phoneNumber} />
               </Form.Group>
               <Form.Group className="mb-3 " controlId="password">
                 <Form.Label className="text-white">Password</Form.Label>
@@ -130,7 +130,7 @@ const SignIn = () => {
                 <ErrInput error={touched.password && errors.password} />
               </Form.Group>
               <div className="d-lg-flex justify-content-between align-items-center mb-4">
-                <Form.Check
+                {/* <Form.Check
                   type="checkbox"
                   {...formik.getFieldProps("remember")}
                 >
@@ -138,7 +138,7 @@ const SignIn = () => {
                   <Form.Check.Label className="text-white">
                     Remember me
                   </Form.Check.Label>
-                </Form.Check>
+                </Form.Check> */}
                 <div>
                   <Link
                     href="/auth/forgot-password"

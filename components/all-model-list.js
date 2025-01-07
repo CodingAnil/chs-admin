@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Dropdown } from "react-bootstrap";
+import { Table, Dropdown, Button } from "react-bootstrap";
 import CustomPagination from "./common/custom-pagination";
 import SuspendAccount from "./modal/suspend-account-modal";
 import UpgradeModal from "./modal/upgrade-modal";
@@ -10,6 +10,7 @@ import ActionMenu from "./common/actions-menu";
 import Breadcrumb from "./common/bread-crump";
 import { capitalizeFirstLetter, getVerifyStatus } from "../utils/model";
 import SearchComponent from "./common/model-search";
+import { medicineArray } from "../utils/constants";
 
 const AllModalList = () => {
   const {
@@ -34,52 +35,47 @@ const AllModalList = () => {
     <>
       <div className="h-100 p-0 min-h-[200px]">
         <div className="flex justify-between items-center px-4 py-3">
-          <Breadcrumb title={"All Models"} />
+          <Breadcrumb title={"All Products"} />
           <div className="flex items-center">
             <SearchComponent
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
             />
-            <FilterMenu type="model" selected={query} setSelected={setQuery} />
+            {/* <FilterMenu type="model" selected={query} setSelected={setQuery} /> */}
+            <div>
+              <Button onClick={() => handleOpenMod("add")}>Add Product</Button>
+            </div>
           </div>
         </div>
-        <NotFound
+        {/* <NotFound
           loading={loading}
           isData={data?.length > 0}
-          message={"No models found."}
-        />
-        {!loading && data?.length > 0 && (
+          message={"No Products found."}
+        /> */}
+        {!loading && data?.length == 0 && (
           <div className="table-wrapper">
             <Table responsive className="text-nowrap">
               <thead className="table-light">
                 <tr>
                   <th>Name</th>
-                  <th>Membership Type</th>
-                  <th>Account Status</th>
-                  <th>Verification Status</th>
+                  <th>Price</th>
+                  <th>Offer</th>
+                  <th>Rating</th>
+                  <th>Status</th>
+                  <th>Date</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {data?.map((item, index) => {
+                {medicineArray?.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <td className="align-middle">{item?.username}</td>
-                      <td className="align-middle">
-                        {item?.subscription?.subscriptionType}
-                      </td>
-                      <td className="align-middle">
-                        {capitalizeFirstLetter(item?.status)}
-                      </td>
-                      <td className="align-middle">
-                        {getVerifyStatus(
-                          item?.model?.verification_status,
-                          item?.model?.stats?.cockStatus,
-                          !item?.pendingImage,
-                          !item?.pendingVideo,
-                          !item?.pendingReview
-                        )}
-                      </td>
+                      <td className="align-middle">{item?.name}</td>
+                      <td className="align-middle">{item?.price}</td>
+                      <td className="align-middle">{item?.offer}</td>
+                      <td className="align-middle">{item?.rating}</td>
+                      <td className="align-middle">{"Listed"}</td>
+                      <td className="align-middle">{item?.date}</td>
                       <td className="align-middle">
                         <ActionMenu
                           item={item}
@@ -104,6 +100,12 @@ const AllModalList = () => {
           </div>
         )}
       </div>
+      <UpgradeModal
+        isOpen={isOpen == "add"}
+        onClose={handleOpenMod}
+        planData={coustomData}
+        getAllData={getAllData}
+      />
       <SuspendAccount
         roleType={"model"}
         getAllData={getAllData}

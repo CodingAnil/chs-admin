@@ -145,66 +145,47 @@ export const SidebarMenu = [
     icon: "home",
     link: "/",
   },
-
   {
     id: uuid(),
-    title: "Models Management",
+    title: "Pharmacy Products",
     icon: "user",
     children: [
       {
         id: uuid(),
-        link: "/all-models",
-        name: "All Models",
-        badge: "Verified",
+        link: "/all-products",
+        name: "All Products",
       },
       {
         id: uuid(),
-        link: "/pending-verification",
-        name: "Verifications",
-        badge: "Pending",
+        link: "#",
+        name: "Offers",
       },
-      // { id: uuid(), link: "/verified-models", name: "Verified Models" },
-      // { id: uuid(), link: "/suspended-models", name: "Suspended Models" },
     ],
   },
   {
     id: uuid(),
-    title: "Clients Management",
+    title: "Patient Management",
+    icon: "user",
+    children: [
+      {
+        id: uuid(),
+        link: "#",
+        name: "All Patient",
+      },
+      {
+        id: uuid(),
+        link: "#",
+        name: "Scheduled Appointments",
+      },
+    ],
+  },
+  {
+    id: uuid(),
+    title: "Doctor Management",
     icon: "users",
     children: [
-      { id: uuid(), link: "/clients-management", name: "All Clients" },
-    ],
-  },
-  {
-    id: uuid(),
-    title: "Transactions",
-    icon: "layout",
-    children: [
-      { id: uuid(), link: "/payment-history", name: "Subscriptions History" },
-      { id: uuid(), link: "/tips-history", name: "Tips History" },
-    ],
-  },
-
-  {
-    id: uuid(),
-    title: "Reviews & Feedback",
-    icon: "layout",
-    children: [
-      { id: uuid(), link: "/model-review", name: "Model Reviews" },
-      { id: uuid(), link: "/client-feedback", name: "Client Feedback" },
-    ],
-  },
-  {
-    id: uuid(),
-    title: "Notifications",
-    icon: "bell",
-    children: [
-      {
-        id: uuid(),
-        link: "/system-notification",
-        name: "System Notifications",
-      },
-      { id: uuid(), link: "/user-complaints", name: "User Complaints" },
+      { id: uuid(), link: "#", name: "All Doctors" },
+      { id: uuid(), link: "#", name: "Doctor Clinic" },
     ],
   },
   {
@@ -212,17 +193,14 @@ export const SidebarMenu = [
     title: "Settings",
     icon: "layout",
     children: [
-      { id: uuid(), link: "/settings", name: "Manage Site Settings" },
-      { id: uuid(), link: "/privacy-policy", name: "Privacy Policy" },
+      { id: uuid(), link: "#", name: "Manage Site Settings" },
+      { id: uuid(), link: "#", name: "Privacy Policy" },
     ],
   },
   {
     id: uuid(),
     title: "Analytics",
     icon: "layout",
-    children: [
-      { id: uuid(), link: "/user-growth", name: "User Growth" },
-      { id: uuid(), link: "/revenue-report", name: "Revenue Reports" },
-    ],
+    children: [{ id: uuid(), link: "/user-growth", name: "User Growth" }],
   },
 ];

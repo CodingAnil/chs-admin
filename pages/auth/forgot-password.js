@@ -3,8 +3,6 @@ import { Row, Col, Card, Form, Button, Image } from "react-bootstrap";
 import Link from "next/link";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { useFormik } from "formik";
 import useForm from "../../utils/hooks/formik_hook";
 import { forgotValidate } from "../../utils/validations/auth";
 import ButtonSpinner from "../../components/loaders/buttonSpinner";
@@ -24,7 +22,7 @@ const ForgetPassword = () => {
       if (response?.status) {
         toastMessage(
           "success",
-          "Reset password link sent! Check your email to proceed"
+          "Reset password link sent! Check your Phone Number to proceed"
         );
         router.push("/auth/sign-in");
       } else {
@@ -41,7 +39,7 @@ const ForgetPassword = () => {
   const { loading, handleSubmit, touched, errors, setLoading, formik } =
     useForm({
       initialValues: {
-        email: "",
+        phoneNumber: "",
       },
       validationFunction: (val) => forgotValidate(val),
       handleFormSubmit: handleFormSubmit,
@@ -55,36 +53,33 @@ const ForgetPassword = () => {
             <div className="mb-4">
               <Link href="/">
                 <Image
-                  src="/images/logo/brand-logo-lg.png"
+                  src="/images/logo/brand-logo.png"
                   className="mb-2"
                   alt=""
                 />
               </Link>
               <p className="mb-6 text-white">
-                Don&apos;t worry, we&apos;ll send you an email to reset your
-                password.
+                Don&apos;t worry, we&apos;ll send otp to your number to reset
+                your password.
               </p>
             </div>
             <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3" controlId="email">
-                <Form.Label className="text-white">Email</Form.Label>
+              <Form.Group className="mb-3" controlId="phoneNumber">
+                <Form.Label className="text-white">Phone Number</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter Your Email"
-                  {...formik.getFieldProps("email")}
+                  placeholder="Enter Your Phone Number"
+                  {...formik.getFieldProps("phoneNumber")}
                 />
-                <ErrInput error={touched.email && errors.email} />
+                <ErrInput error={touched.phoneNumber && errors.phoneNumber} />
               </Form.Group>
               <div className="mb-3 d-grid">
                 <Button variant="primary" type="submit">
-                Reset Password {loading && <ButtonSpinner />} 
+                  Reset Password {loading && <ButtonSpinner />}
                 </Button>
               </div>
               <span className="text-white">
-               
-                <Link href="/auth/sign-in" className="primary-text">
-                  Back to Login
-                </Link>
+                <Link href="/auth/sign-in">Back to Login</Link>
               </span>
             </Form>
           </Card.Body>
