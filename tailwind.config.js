@@ -29,7 +29,8 @@ module.exports = {
       colors: {
         secondaryShade4: "rgba(72, 74, 78, 0.5)",
         secondprimary: "#3781f9",
-        primary: "rgb(43 241 43)",
+        // primary: "rgb(43 241 43)",
+        primary: "#3781f9",
         primary700: "#e8a705b3",
         greenColor: "#0D9F00",
         secondaryShade1: "#1A1D22",

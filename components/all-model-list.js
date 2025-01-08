@@ -2,15 +2,22 @@ import React, { useState } from "react";
 import { Table, Dropdown, Button } from "react-bootstrap";
 import CustomPagination from "./common/custom-pagination";
 import SuspendAccount from "./modal/suspend-account-modal";
-import UpgradeModal from "./modal/upgrade-modal";
+import AddNewProducts from "./modal/upgrade-modal";
 import getMountData from "../utils/hooks/data_getting_hook";
 import NotFound from "./common/notfound";
-import FilterMenu from "./common/filter-dropdown";
 import ActionMenu from "./common/actions-menu";
 import Breadcrumb from "./common/bread-crump";
 import { capitalizeFirstLetter, getVerifyStatus } from "../utils/model";
 import SearchComponent from "./common/model-search";
 import { medicineArray } from "../utils/constants";
+import moment from "moment";
+import { FaEye } from "react-icons/fa";
+import { BiEditAlt } from "react-icons/bi";
+import { MdDeleteForever } from "react-icons/md";
+import { callDeleteApi, callPatchApi, callPutApi } from "../services";
+import { toastMessage } from "../utils/configs/toast";
+import DeleteModal from "./modal/delete-account-modal";
+import ProductDetails from "./modal/seeProductDetails";
 
 const AllModalList = () => {
   const {
@@ -24,12 +31,51 @@ const AllModalList = () => {
     setQuery,
     pageLimit,
     dataLength,
-    handleActionClick,
     getAllData,
     coustomData,
     searchQuery,
     setSearchQuery,
-  } = getMountData("/admin/active-models");
+    openModelWithItem,
+  } = getMountData("/admin/products");
+
+  const handleDelete = async () => {
+    try {
+      const response = await callDeleteApi(`/admin/product/${coustomData._id}`);
+      if (response?.status) {
+        toastMessage("success", "Product deleted successfully!");
+        openModelWithItem();
+        getAllData(`/admin/products`);
+      } else {
+        toastMessage(
+          "error",
+          response?.message || "Failed to delete the Product"
+        );
+      }
+    } catch (error) {
+      console.error("Delete operation error:", error);
+      toastMessage("error", "An unexpected error occurred while deleting.");
+    }
+  };
+
+  const handleStatusChange = async (status, id) => {
+    try {
+      const response = await callPatchApi(`/admin/product-status/${id}`, {
+        status,
+      });
+      if (response?.status) {
+        toastMessage("success", `Product Status changed to ${status}`);
+        getAllData(`/admin/products`);
+      } else {
+        toastMessage(
+          "error",
+          response?.message || "Failed to change the Product status"
+        );
+      }
+    } catch (error) {
+      console.error("Delete operation error:", error);
+      toastMessage("error", "An unexpected error occurred while deleting.");
+    }
+  };
 
   return (
     <>
@@ -43,45 +89,95 @@ const AllModalList = () => {
             />
             {/* <FilterMenu type="model" selected={query} setSelected={setQuery} /> */}
             <div>
-              <Button onClick={() => handleOpenMod("add")}>Add Product</Button>
+              <Button onClick={() => openModelWithItem("add")}>
+                Add Product
+              </Button>
             </div>
           </div>
         </div>
-        {/* <NotFound
+        <NotFound
           loading={loading}
           isData={data?.length > 0}
           message={"No Products found."}
-        /> */}
-        {!loading && data?.length == 0 && (
+        />
+        {!loading && data?.length > 0 && (
           <div className="table-wrapper">
             <Table responsive className="text-nowrap">
               <thead className="table-light">
                 <tr>
+                  <th>SKU Number</th>
                   <th>Name</th>
                   <th>Price</th>
-                  <th>Offer</th>
-                  <th>Rating</th>
+                  <th>Discount</th>
+                  <th>Stock Quantity</th>
+                  <th>Type</th>
                   <th>Status</th>
                   <th>Date</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {medicineArray?.map((item, index) => {
+                {data?.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <td className="align-middle">{item?.name}</td>
-                      <td className="align-middle">{item?.price}</td>
-                      <td className="align-middle">{item?.offer}</td>
-                      <td className="align-middle">{item?.rating}</td>
-                      <td className="align-middle">{"Listed"}</td>
-                      <td className="align-middle">{item?.date}</td>
+                      <td className="align-middle">{item?.SKUnumber}</td>
                       <td className="align-middle">
-                        <ActionMenu
-                          item={item}
-                          type="model"
-                          handleClick={handleActionClick}
-                        />
+                        <div
+                          onClick={() => openModelWithItem("view", item)}
+                          className="flex items-center space-x-2 text-blue-500 cursor-pointer hover:scale-110"
+                        >
+                          <FaEye />
+                          <span>{item?.name}</span>
+                        </div>
+                      </td>
+                      <td className="align-middle">{item?.price}</td>
+                      <td className="align-middle">{item?.discount}</td>
+                      <td className="align-middle">{item?.stockQuantity}</td>
+                      <td className="align-middle">{item?.type}</td>
+                      <td className={`align-middle`}>
+                        <select
+                          className={`${
+                            item?.status === "Pending"
+                              ? "bg-orange-400"
+                              : item?.status === "Hold"
+                              ? "bg-red-400"
+                              : item?.status === "Published"
+                              ? "bg-green-400"
+                              : ""
+                          } border rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                          value={item?.status}
+                          onChange={(e) =>
+                            handleStatusChange(e.target.value, item?._id)
+                          }
+                        >
+                          <option className="bg-white" value="Published">
+                            Published
+                          </option>
+                          <option className="bg-white" value="Pending">
+                            Pending
+                          </option>
+                          <option className="bg-white" value="Hold">
+                            Hold
+                          </option>
+                        </select>
+                      </td>
+                      <td className="align-middle">
+                        {" "}
+                        {moment(item?.updatedAt).format("DD MMM YYYY")}
+                      </td>
+                      <td className="align-middle">
+                        <div className="flex flex-row items-center space-x-4">
+                          <BiEditAlt
+                            onClick={() => openModelWithItem("edit", item)}
+                            className="text-green-500 cursor-pointer hover:scale-110"
+                            title="Edit"
+                          />
+                          <MdDeleteForever
+                            onClick={() => openModelWithItem("delete", item)}
+                            className="text-red-500 cursor-pointer hover:scale-110"
+                            title="Delete"
+                          />
+                        </div>
                       </td>
                     </tr>
                   );
@@ -100,23 +196,22 @@ const AllModalList = () => {
           </div>
         )}
       </div>
-      <UpgradeModal
-        isOpen={isOpen == "add"}
-        onClose={handleOpenMod}
+      <DeleteModal
+        isOpen={isOpen == "delete"}
+        onClose={openModelWithItem}
+        title="Are you sure you want to delete this product ?"
+        onConfirm={handleDelete}
+      />
+      <AddNewProducts
+        isOpen={isOpen}
+        onClose={openModelWithItem}
         planData={coustomData}
         getAllData={getAllData}
       />
-      <SuspendAccount
-        roleType={"model"}
-        getAllData={getAllData}
-        isOpen={isOpen == "suspend"}
-        onClose={handleOpenMod}
-      />
-      <UpgradeModal
-        isOpen={isOpen == "upgrade"}
-        onClose={handleOpenMod}
+      <ProductDetails
+        isOpen={isOpen == "view"}
+        onClose={openModelWithItem}
         planData={coustomData}
-        getAllData={getAllData}
       />
     </>
   );

@@ -427,3 +427,13 @@ table tr td.Rejected {
 div[data-slot="content"] {
   min-width: 150px !important;
 }
+
+.Pending {
+  color: #ec6c03;
+}
+.Published {
+  color: #6cec03;
+}
+.Hold {
+  color: #ec3203;
+}

@@ -168,7 +168,7 @@ const ModalBio = ({
                           onClick={handleOpenModal}
                         >
                           <IoIosCloseCircleOutline className="text-xl" />{" "}
-                          Pending
+                          
                         </button>
                       )}
                     </div>

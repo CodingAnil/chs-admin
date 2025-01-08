@@ -30,9 +30,9 @@ const useMountData = (baseUrl) => {
         if (response?.status) {
           setData(response.data);
           setBackupData(response.data);
-          if (response?.addOns) {
-            setDataLength(response.addOns?.totalUsers);
-            setAddOns(response?.addOns);
+          if (response?.pagination) {
+            setDataLength(response.pagination?.total);
+            setAddOns(response?.pagination);
             // setCurrentPage(response.addOns?.page);
           }
         }
@@ -42,7 +42,7 @@ const useMountData = (baseUrl) => {
         setLoading(false);
       }
     },
-    [baseUrl, query,searchQuery, currentPage]
+    [baseUrl, query, searchQuery, currentPage]
   );
 
   useEffect(() => {
@@ -125,7 +125,7 @@ const useMountData = (baseUrl) => {
     setIsLoading,
     addOns,
     searchQuery,
-    setSearchQuery
+    setSearchQuery,
   };
 };
 

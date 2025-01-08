@@ -2,40 +2,53 @@ import { Modal, ModalContent, ModalBody } from "@nextui-org/react";
 import { useState } from "react";
 import useForm from "../../utils/hooks/formik_hook";
 import { toastMessage } from "../../utils/configs/toast";
-import { callPutApi } from "../../services";
+import { callPostApi, callPutApi } from "../../services";
 import ButtonSpinner from "../../components/loaders/buttonSpinner";
 import ErrInput from "../../components/common/errorInput";
 import { discountValidate } from "../../utils/validations/profile";
 
-const UpgradeModal = ({ isOpen, onClose, planData, getAllData }) => {
+const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
   // Handle form submission
   const handleFormSubmit = async (data) => {
     try {
       setLoading(true);
-      const response = await callPutApi(
-        `admin/update/discount/${planData._id}`,
-        {
-          discount: Number(data.discount),
-        }
-      );
+      let response;
+      if (isOpen == "add") {
+        response = await callPostApi(`admin/product`, {
+          ...data,
+        });
+      } else {
+        response = await callPutApi(`admin/product/${planData?._id}`, {
+          ...data,
+        });
+      }
 
       if (response?.status) {
-        toastMessage("success", "User discount has been applied successfully");
-        getAllData("/admin/active-models");
-        onClose();
+        toastMessage(
+          "success",
+          isOpen == "add"
+            ? `New Products has been added successfully`
+            : `Product has been updated successfully`
+        );
+        getAllData("/admin/products");
+        handleCancel();
       } else {
-        toastMessage("error", "Failed to apply discount");
+        toastMessage(
+          "error",
+          isOpen == "add"
+            ? "Failed to add new product"
+            : "Failed to update product"
+        );
       }
     } catch (error) {
-      console.error("Error updating discount:", error);
+      console.error("Error add new product:", error);
       toastMessage("error", "An unexpected error occurred");
     } finally {
       setLoading(false);
-      onClose();
-      resetForm();
     }
   };
 
+  console.log(planData, "openModelWithItem");
   const {
     loading,
     handleSubmit,
@@ -46,21 +59,20 @@ const UpgradeModal = ({ isOpen, onClose, planData, getAllData }) => {
     resetForm,
   } = useForm({
     initialValues: {
-      discount: planData?.subscription?.stripeDiscount || "",
+      name: planData?.name || "",
+      companyName: planData?.companyName || "",
+      description: planData?.description || "",
+      price: planData?.price || "",
+      discount: planData?.discount || "",
+      quantity: planData?.quantity || "",
+      stockQuantity: planData?.stockQuantity || "",
+      country: planData?.country || "",
+      image: "",
+      type: planData?.type || "",
     },
     validationFunction: discountValidate,
     handleFormSubmit: handleFormSubmit,
   });
-
-  const handleDiscountChange = (e) => {
-    const { value } = e.target;
-    if (/^\d*$/.test(value)) {
-      const numericValue = parseInt(value, 10);
-      if (numericValue <= 100 || value === "") {
-        formik.setFieldValue("discount", value);
-      }
-    }
-  };
 
   // Handle form cancel
   const handleCancel = () => {
@@ -71,7 +83,7 @@ const UpgradeModal = ({ isOpen, onClose, planData, getAllData }) => {
   return (
     <Modal
       size="xl"
-      isOpen={isOpen}
+      isOpen={isOpen == "add" || isOpen == "edit"}
       backdrop="blur"
       hideCloseButton={true}
       placement="center"
@@ -80,59 +92,163 @@ const UpgradeModal = ({ isOpen, onClose, planData, getAllData }) => {
         <ModalBody className="pt-7 pb-8 px-4 gap-0">
           <div className="mb-6">
             <h2 className="text-center text-3xl text-white font-medium">
-              Upgrade Plan
+              {isOpen == "add" ? "Add New Product" : "Edit Product"}
             </h2>
           </div>
           <form onSubmit={handleSubmit}>
             <div>
-              <div className="flex items-center mb-3">
-                <span className="min-w-72 text-[#dfdcdc] text-lg font-medium mr-2">
-                  Model Name:
-                </span>
-                <span className="font-bold text-white text-lg">
-                  {planData.username}
-                </span>
+              <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
+                <input
+                  type="text"
+                  placeholder="Enter Product Name"
+                  className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
+                  {...formik.getFieldProps("name")}
+                />
               </div>
-              <div className="mb-3 flex items-center">
-                <span className="min-w-72 text-[#dfdcdc] text-lg font-medium mr-2">
-                  Model current membership:
-                </span>
-                <span className="font-bold text-white text-lg">
-                  {planData?.subscription?.subscriptionType}
-                </span>
+              <div className="mb-5">
+                <ErrInput error={touched.name && errors.name} />
               </div>
-              <div className="mb-3 flex items-center">
-                <span className="min-w-72 text-[#dfdcdc] text-lg font-medium mr-2">
-                  Upgraded membership type:
-                </span>
-                <span className="font-bold text-white text-lg">
-                  Elite Exclusive gent
-                </span>
+
+              <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
+                <input
+                  type="text"
+                  placeholder="Enter Company Name"
+                  className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
+                  {...formik.getFieldProps("companyName")}
+                />
               </div>
-              <div className="mb-3 flex items-center">
-                <span className="min-w-72 text-[#dfdcdc] text-lg font-medium mr-2">
-                  Discount on current price in %:
-                </span>
-                <div className="flex">
-                  <input
-                    type="text"
-                    value={formik.values.discount}
-                    onChange={handleDiscountChange}
-                    className="border-none w-24 bg-[#484a4e] rounded-md outline-none text-white p-2 focus:outline-none focus:ring-0"
-                    placeholder="Discount %"
-                  />
+              <div className="mb-5">
+                <ErrInput error={touched.companyName && errors.companyName} />
+              </div>
+
+              <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
+                <textarea
+                  type="text"
+                  placeholder="Enter Description"
+                  className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
+                  {...formik.getFieldProps("description")}
+                />
+              </div>
+              <div className="mb-5">
+                <ErrInput error={touched.description && errors.description} />
+              </div>
+
+              <div className="flex w-full">
+                <div className="w-1/2 pr-2">
+                  <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
+                    <input
+                      type="number"
+                      placeholder="Enter Product Price"
+                      className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
+                      {...formik.getFieldProps("price")}
+                    />
+                  </div>
+                  <div className="mb-5">
+                    <ErrInput error={touched.price && errors.price} />
+                  </div>
+                </div>
+                <div className="w-1/2 pr-2">
+                  <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
+                    <input
+                      type="number"
+                      placeholder="Enter Discount"
+                      className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
+                      {...formik.getFieldProps("discount")}
+                    />
+                  </div>
+                  <div className="mb-5">
+                    <ErrInput error={touched.discount && errors.discount} />
+                  </div>
                 </div>
               </div>
-              <ErrInput
-                error={
-                  touched.discount &&
-                  errors.discount && (
-                    <div className="text-red-500 text-sm ml-72">
-                      {errors.discount}
-                    </div>
-                  )
-                }
-              />
+
+              <div className="flex w-full">
+                <div className="w-1/2 pr-2">
+                  <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
+                    <input
+                      type="number"
+                      placeholder="Enter Quantity Per/Product(ml)"
+                      className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
+                      {...formik.getFieldProps("quantity")}
+                    />
+                  </div>
+                  <div className="mb-5">
+                    <ErrInput error={touched.quantity && errors.quantity} />
+                  </div>
+                </div>
+                <div className="w-1/2 pr-2">
+                  <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
+                    <input
+                      type="number"
+                      placeholder="Enter Stock Quantity"
+                      className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
+                      {...formik.getFieldProps("stockQuantity")}
+                    />
+                  </div>
+                  <div className="mb-5">
+                    <ErrInput
+                      error={touched.stockQuantity && errors.stockQuantity}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex w-full">
+                <div className="w-1/2 pr-2">
+                  <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
+                    <input
+                      type="text"
+                      placeholder="Enter Country Name"
+                      className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
+                      {...formik.getFieldProps("country")}
+                    />
+                  </div>
+                  <div className="mb-5">
+                    <ErrInput error={touched.country && errors.country} />
+                  </div>
+                </div>
+                <div className="w-1/2 pr-2">
+                  <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
+                    <select
+                      className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
+                      {...formik.getFieldProps("type")}
+                    >
+                      <option value="" disabled>
+                        Select one
+                      </option>
+                      <option value="Tablet">Tablet</option>
+                      <option value="Suyrup">Syrup</option>
+                    </select>
+                  </div>
+                  <div className="mb-5">
+                    <ErrInput error={touched.type && errors.type} />
+                  </div>
+                </div>
+              </div>
+
+              {/* <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
+                <input
+                  type="text"
+                  placeholder="Enter Country Name"
+                  className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
+                  {...formik.getFieldProps("country")}
+                />
+              </div>
+              <div className="mb-5">
+                <ErrInput error={touched.country && errors.country} />
+              </div> */}
+              <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
+                <input
+                  type="file"
+                  placeholder="Choose an image"
+                  className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
+                  {...formik.getFieldProps("image")}
+                />
+              </div>
+
+              <div className="mb-5">
+                <ErrInput error={touched.image && errors.image} />
+              </div>
             </div>
             {/* Buttons */}
             <div className="flex justify-center gap-4.5 mt-6">
@@ -141,7 +257,8 @@ const UpgradeModal = ({ isOpen, onClose, planData, getAllData }) => {
                 disabled={loading}
                 className="bg-yellow btn-bg-primary text-white py-3 px-6 rounded-md text-base font-bold disabled:opacity-50"
               >
-                Update {loading && <ButtonSpinner />}
+                {isOpen == "add" ? "Add Product" : "Update Product"}{" "}
+                {loading && <ButtonSpinner />}
               </button>
               <button
                 type="button"
@@ -159,4 +276,4 @@ const UpgradeModal = ({ isOpen, onClose, planData, getAllData }) => {
   );
 };
 
-export default UpgradeModal;
+export default AddNewProducts;

@@ -411,10 +411,47 @@ export const travelValidate = (values) => {
 export const discountValidate = (values) => {
   const errors = {};
 
+  if (!values.name) {
+    errors.name = "Name is required";
+  } else if (values.length < 3) {
+    errors.name = "Name must be grater than 3";
+  }
+
+  if (!values.companyName) {
+    errors.companyName = "Company name is required";
+  } else if (values.companyName < 10) {
+    errors.companyName = "Company name must be grater than 10";
+  }
+
+  if (!values.description) {
+    errors.description = "Description is required";
+  } else if (values.description < 10) {
+    errors.description = "Description must be grater than 10";
+  }
+
   if (!values.discount) {
     errors.discount = "Discount is required";
   } else if (values.discount > 100) {
     errors.discount = "Discount must be less than or equal to 100";
+  }
+
+  if (!values.price) {
+    errors.price = "Price is required";
+  }
+
+  if (!values.quantity) {
+    errors.quantity = "Quantity is required";
+  }
+
+  if (!values.stockQuantity) {
+    errors.stockQuantity = "Stock Quantity is required";
+  }
+
+  if (!values.image) {
+    errors.image = "Product image is required";
+  }
+  if (!values.type) {
+    errors.type = "Product type is required";
   }
 
   return errors;
