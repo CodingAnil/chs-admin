@@ -12,6 +12,13 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
   const handleFormSubmit = async (data) => {
     try {
       setLoading(true);
+      const formData = new FormData();
+      formData.append("file", data?.image);
+      const file = await callPostApi(`user/upload-file`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      console.log(file, "file");
+      return;
       let response;
       if (isOpen == "add") {
         response = await callPostApi(`admin/product`, {
@@ -70,7 +77,7 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
       image: "",
       type: planData?.type || "",
     },
-    validationFunction: discountValidate,
+    validationFunction: null,
     handleFormSubmit: handleFormSubmit,
   });
 
