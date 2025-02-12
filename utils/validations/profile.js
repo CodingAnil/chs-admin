@@ -447,9 +447,9 @@ export const discountValidate = (values) => {
     errors.stockQuantity = "Stock Quantity is required";
   }
 
-  if (!values.image) {
-    errors.image = "Product image is required";
-  }
+  // if (!values.image) {
+  //   errors.image = "Product image is required";
+  // }
   if (!values.type) {
     errors.type = "Product type is required";
   }

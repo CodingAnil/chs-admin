@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import { Table, Dropdown, Button } from "react-bootstrap";
 import CustomPagination from "./common/custom-pagination";
-import SuspendAccount from "./modal/suspend-account-modal";
 import AddNewProducts from "./modal/upgrade-modal";
 import getMountData from "../utils/hooks/data_getting_hook";
 import NotFound from "./common/notfound";
-import ActionMenu from "./common/actions-menu";
 import Breadcrumb from "./common/bread-crump";
-import { capitalizeFirstLetter, getVerifyStatus } from "../utils/model";
 import SearchComponent from "./common/model-search";
-import { medicineArray } from "../utils/constants";
 import moment from "moment";
 import { FaEye } from "react-icons/fa";
 import { BiEditAlt } from "react-icons/bi";

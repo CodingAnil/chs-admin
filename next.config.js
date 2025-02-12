@@ -4,8 +4,10 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ["datingadult.s3.us-east-1.amazonaws.com"],
+    unoptimized: true,
+    domains: ["*"],
   },
+  output: "export",
 };
 
 module.exports = nextConfig;

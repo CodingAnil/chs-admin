@@ -1,5 +1,4 @@
 import { Modal, ModalContent, ModalBody } from "@nextui-org/react";
-import { useState } from "react";
 import useForm from "../../utils/hooks/formik_hook";
 import { toastMessage } from "../../utils/configs/toast";
 import { callPostApi, callPutApi } from "../../services";
@@ -17,8 +16,8 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
       const file = await callPostApi(`user/upload-file`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log(file, "file");
-      return;
+      // console.log(file, "file");
+      // return;
       let response;
       if (isOpen == "add") {
         response = await callPostApi(`admin/product`, {
@@ -77,7 +76,7 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
       image: "",
       type: planData?.type || "",
     },
-    validationFunction: null,
+    validationFunction: discountValidate,
     handleFormSubmit: handleFormSubmit,
   });
 
