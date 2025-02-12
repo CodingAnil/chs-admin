@@ -5,27 +5,34 @@ import { callPostApi, callPutApi } from "../../services";
 import ButtonSpinner from "../../components/loaders/buttonSpinner";
 import ErrInput from "../../components/common/errorInput";
 import { discountValidate } from "../../utils/validations/profile";
+import { useState } from "react";
 
 const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
+  const [prodImage, setPodImage] = useState(null);
   // Handle form submission
   const handleFormSubmit = async (data) => {
     try {
       setLoading(true);
-      const formData = new FormData();
-      formData.append("file", data?.image);
-      const file = await callPostApi(`user/upload-file`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      // console.log(file, "file");
+      let file;
+      if (prodImage) {
+        const formData = new FormData();
+        formData.append("file", prodImage);
+        file = await callPostApi(`user/upload-file`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      }
+
       // return;
       let response;
       if (isOpen == "add") {
         response = await callPostApi(`admin/product`, {
           ...data,
+          image: file?.data?.location || data?.image,
         });
       } else {
         response = await callPutApi(`admin/product/${planData?._id}`, {
           ...data,
+          image: file?.data?.location || data?.image,
         });
       }
 
@@ -73,7 +80,7 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
       quantity: planData?.quantity || "",
       stockQuantity: planData?.stockQuantity || "",
       country: planData?.country || "",
-      image: "",
+      image: planData?.image || "",
       type: planData?.type || "",
     },
     validationFunction: discountValidate,
@@ -84,6 +91,11 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
   const handleCancel = () => {
     resetForm();
     onClose();
+  };
+
+  const handleImage = (e) => {
+    setPodImage(e.target.files[0]);
+    formik.setFieldValue("image", e.target.value);
   };
 
   return (
@@ -248,7 +260,11 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
                   type="file"
                   placeholder="Choose an image"
                   className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
-                  {...formik.getFieldProps("image")}
+                  onChange={handleImage}
+                  onBlur={formik.onBlur}
+                  // value={formik?.image}
+                  // value={formik.image}
+                  // {...formik.getFieldProps("image")}
                 />
               </div>
 
