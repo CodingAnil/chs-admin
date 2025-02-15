@@ -7,8 +7,7 @@ import {
 } from "../utils/configs/localStorage";
 
 const axiosInstance = axios.create({
-  // baseURL: "https://api.chshealthcare.in/",
-  baseURL : "http://localhost:5000/",
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
