@@ -7,7 +7,7 @@ const nextConfig = {
     unoptimized: true,
     domains: ["*"],
   },
-  output: "export",
+  // output: "export",
 };
 
 module.exports = nextConfig;
