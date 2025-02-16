@@ -102,17 +102,29 @@ const ProductDetails = ({ isOpen, onClose, planData }) => {
             </div>
 
             {/* Country */}
-            <div className="flex gap-2">
+            {/* <div className="flex gap-2">
               <span className="font-bold text-base text-gray-400">
                 Country:
               </span>
               <span className="text-base">{planData?.country || "N/A"}</span>
+            </div> */}
+
+            {/* Category */}
+            <div className="flex gap-2">
+              <span className="font-bold text-base text-gray-400">
+                Category:
+              </span>
+              <span className="text-base">{planData?.category || "N/A"}</span>
             </div>
 
-            {/* Type */}
+            {/* Subcategory */}
             <div className="flex gap-2">
-              <span className="font-bold text-base text-gray-400">Type:</span>
-              <span className="text-base">{planData?.type || "N/A"}</span>
+              <span className="font-bold text-base text-gray-400">
+                Sub Category:
+              </span>
+              <span className="text-base">
+                {planData?.subcategory || "N/A"}
+              </span>
             </div>
 
             {/* Status */}

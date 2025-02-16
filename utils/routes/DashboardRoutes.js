@@ -157,7 +157,7 @@ export const SidebarMenu = [
       },
       {
         id: uuid(),
-        link: "#",
+        link: "/offers",
         name: "Offers",
       },
     ],
@@ -169,12 +169,12 @@ export const SidebarMenu = [
     children: [
       {
         id: uuid(),
-        link: "#",
+        link: "/patients",
         name: "All Patient",
       },
       {
         id: uuid(),
-        link: "#",
+        link: "/appointments",
         name: "Scheduled Appointments",
       },
     ],
@@ -184,8 +184,8 @@ export const SidebarMenu = [
     title: "Doctor Management",
     icon: "users",
     children: [
-      { id: uuid(), link: "#", name: "All Doctors" },
-      { id: uuid(), link: "#", name: "Doctor Clinic" },
+      { id: uuid(), link: "/doctors", name: "All Doctors" },
+      { id: uuid(), link: "/doctor-clinic", name: "Doctor Clinic" },
     ],
   },
   {
@@ -193,8 +193,8 @@ export const SidebarMenu = [
     title: "Settings",
     icon: "layout",
     children: [
-      { id: uuid(), link: "#", name: "Manage Site Settings" },
-      { id: uuid(), link: "#", name: "Privacy Policy" },
+      { id: uuid(), link: "/settings", name: "Manage Site Settings" },
+      { id: uuid(), link: "/policy", name: "Privacy Policy" },
     ],
   },
   {

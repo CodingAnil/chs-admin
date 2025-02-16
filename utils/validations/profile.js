@@ -7,7 +7,7 @@ import {
   profileHeightListFoot,
   weightListKG,
   weightListLBS,
-} from "../constants";
+} from "../constants/indexold";
 
 export const isClientProfileValid = (data, type) => {
   const errors = { location: {} };
@@ -447,11 +447,14 @@ export const discountValidate = (values) => {
     errors.stockQuantity = "Stock Quantity is required";
   }
 
-  // if (!values.image) {
-  //   errors.image = "Product image is required";
-  // }
-  if (!values.type) {
-    errors.type = "Product type is required";
+  if (!values.image) {
+    errors.image = "Product image is required";
+  }
+  if (!values.category) {
+    errors.category = "Category is required";
+  }
+  if (!values.subcategory) {
+    errors.subcategory = "Sub-Category is required";
   }
 
   return errors;

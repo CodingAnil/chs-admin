@@ -1,6 +1,6 @@
 import { Spinner } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
-import { loadingLabels } from "../../utils/constants";
+import { loadingLabels } from "../../utils/constants/indexold";
 
 const Loader = ({ size, color, label, customClass }) => {
   const [randomLabel, setRandomLabel] = useState(label || "Loading...");

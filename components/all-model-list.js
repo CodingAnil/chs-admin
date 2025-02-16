@@ -106,7 +106,7 @@ const AllModalList = () => {
                   <th>Price</th>
                   <th>Discount</th>
                   <th>Stock Quantity</th>
-                  <th>Type</th>
+                  <th>Category</th>
                   <th>Status</th>
                   <th>Date</th>
                   <th>Actions</th>
@@ -129,7 +129,7 @@ const AllModalList = () => {
                       <td className="align-middle">{item?.price}</td>
                       <td className="align-middle">{item?.discount}</td>
                       <td className="align-middle">{item?.stockQuantity}</td>
-                      <td className="align-middle">{item?.type}</td>
+                      <td className="align-middle">{item?.category}</td>
                       <td className={`align-middle`}>
                         <select
                           className={`${

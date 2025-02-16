@@ -6,6 +6,7 @@ import ButtonSpinner from "../../components/loaders/buttonSpinner";
 import ErrInput from "../../components/common/errorInput";
 import { discountValidate } from "../../utils/validations/profile";
 import { useState } from "react";
+import { categoryOptions } from "../../utils/constants";
 
 const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
   const [prodImage, setPodImage] = useState(null);
@@ -70,6 +71,7 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
     setLoading,
     formik,
     resetForm,
+    values,
   } = useForm({
     initialValues: {
       name: planData?.name || "",
@@ -81,7 +83,8 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
       stockQuantity: planData?.stockQuantity || "",
       country: planData?.country || "",
       image: planData?.image || "",
-      type: planData?.type || "",
+      category: planData?.category || "",
+      subcategory: planData?.subcategory || "",
     },
     validationFunction: discountValidate,
     handleFormSubmit: handleFormSubmit,
@@ -105,9 +108,10 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
       backdrop="blur"
       hideCloseButton={true}
       placement="center"
+      className="overflow-auto"
     >
       <ModalContent className="bg-[#1A1D22] border border-[#353535] rounded-xl shadow-lg">
-        <ModalBody className="pt-7 pb-8 px-4 gap-0">
+        <ModalBody className="pt-7 pb-8 px-4 gap-0 max-h-[80vh] overflow-auto">
           <div className="mb-6">
             <h2 className="text-center text-3xl text-white font-medium">
               {isOpen == "add" ? "Add New Product" : "Edit Product"}
@@ -212,49 +216,66 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
               </div>
 
               <div className="flex w-full">
-                <div className="w-1/2 pr-2">
-                  <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
-                    <input
-                      type="text"
-                      placeholder="Enter Country Name"
-                      className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
-                      {...formik.getFieldProps("country")}
-                    />
-                  </div>
-                  <div className="mb-5">
-                    <ErrInput error={touched.country && errors.country} />
-                  </div>
-                </div>
+                {/* Category Field */}
                 <div className="w-1/2 pr-2">
                   <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
                     <select
                       className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
-                      {...formik.getFieldProps("type")}
+                      {...formik.getFieldProps("category")}
+                      onChange={(e) => {
+                        // setSelectedCategory(e.target.value);
+                        formik.setFieldValue("category", e.target.value);
+                        formik.setFieldValue("subcategory", ""); // Reset subcategory when category changes
+                      }}
                     >
                       <option value="" disabled>
-                        Select one
+                        Select category
                       </option>
-                      <option value="Tablet">Tablet</option>
-                      <option value="Suyrup">Syrup</option>
+                      {Object.keys(categoryOptions).map((category) => (
+                        <option key={category} value={category}>
+                          {category}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="mb-5">
-                    <ErrInput error={touched.type && errors.type} />
+                    <ErrInput
+                      error={formik.touched.category && formik.errors.category}
+                    />
+                  </div>
+                </div>
+
+                {/* Subcategory Field */}
+                <div className="w-1/2 pr-2">
+                  <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
+                    <select
+                      className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
+                      {...formik.getFieldProps("subcategory")}
+                      // disabled={!values.category}
+                    >
+                      <option value="" disabled>
+                        {!values.category
+                          ? "Please select category"
+                          : "Select sub-category"}
+                      </option>
+                      {values.category &&
+                        categoryOptions[values.category].map((subcategory) => (
+                          <option key={subcategory} value={subcategory}>
+                            {subcategory}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                  <div className="mb-5">
+                    <ErrInput
+                      error={
+                        formik.touched.subcategory && formik.errors.subcategory
+                      }
+                    />
                   </div>
                 </div>
               </div>
 
-              {/* <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
-                <input
-                  type="text"
-                  placeholder="Enter Country Name"
-                  className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
-                  {...formik.getFieldProps("country")}
-                />
-              </div>
-              <div className="mb-5">
-                <ErrInput error={touched.country && errors.country} />
-              </div> */}
               <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
                 <input
                   type="file"

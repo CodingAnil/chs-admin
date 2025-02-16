@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Card, Col, Row } from "react-bootstrap";
-import { ProductStatusData } from "../../utils/constants";
+import { ProductStatusData } from "../../utils/constants/indexold";
 import getMountData from "../../utils/hooks/data_getting_hook";
 import { getCounts } from "../../utils";
 
