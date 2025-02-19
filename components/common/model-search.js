@@ -3,7 +3,7 @@ import debounce from "lodash.debounce"; // Install lodash.debounce if not alread
 import Image from "next/image";
 import SearchIcon from "@/icons/search.svg";
 
-const SearchComponent = ({ searchQuery, setSearchQuery }) => {
+const SearchComponent = ({ searchQuery, setSearchQuery, placeholder }) => {
   const debouncedSearch = useCallback(
     debounce((value) => {
       setSearchQuery(value);
@@ -24,7 +24,7 @@ const SearchComponent = ({ searchQuery, setSearchQuery }) => {
           name="search"
           type="text"
           onChange={handleChange}
-          placeholder="Search"
+          placeholder={placeholder || "Search"}
           className="h-[42px] bg-white border border-[#dfe3e8] rounded-lg pl-[52px] text-sm text-[#46494e] outline-0 w-full"
         />
         <Image

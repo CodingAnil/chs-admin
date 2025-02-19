@@ -33,6 +33,15 @@ const categoryOptions = {
   ],
 };
 
+const allCategories = [
+  "Healthcare Devices",
+  "Personal Care",
+  "Nutrition and Fitness Supplements",
+  "Ayurvedic Care",
+  "Home Care",
+  "Mother and Baby Care",
+];
+
 const dataArray = [
   {
     name: "test",

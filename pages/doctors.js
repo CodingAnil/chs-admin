@@ -1,12 +1,12 @@
-import React from "react";
-import AllOffers from "../components/offers";
+import React, { useEffect } from "react";
+import AllDoctors from "../components/allDoctors";
 
-const patients = () => {
+const Doctors = () => {
   return (
     <div>
-      <AllOffers />
+      <AllDoctors />
     </div>
   );
 };
 
-export default patients;
+export default Doctors;

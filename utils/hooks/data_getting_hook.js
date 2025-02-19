@@ -22,7 +22,7 @@ const useMountData = (baseUrl) => {
       setLoading(noLoading ? false : true);
       let url = `${baseUrl}?limit=${pageLimit}&currentPage=${currentPage}`;
       if (query || searchQuery) {
-        url = `${baseUrl}?limit=${pageLimit}&currentPage=${currentPage}&status=${query}&search=${searchQuery}`;
+        url = `${baseUrl}?limit=${pageLimit}&currentPage=${currentPage}&status=${query}&search=${searchQuery}&type=${query?.type}`;
       }
 
       try {

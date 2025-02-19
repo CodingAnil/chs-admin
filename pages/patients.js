@@ -1,10 +1,10 @@
 import React from "react";
-import AllOffers from "../components/offers";
+import AllPatients from "../components/allPaitent";
 
 const patients = () => {
   return (
     <div>
-      <AllOffers />
+      <AllPatients />
     </div>
   );
 };
