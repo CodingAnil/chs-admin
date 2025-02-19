@@ -33,7 +33,7 @@ const AllPatients = () => {
     searchQuery,
     setSearchQuery,
     openModelWithItem,
-  } = getMountData("/admin/all-users");
+  } = getMountData("/admin/all-patients");
 
   console.log(data, "datadatadata");
   const handleDelete = async () => {
@@ -83,7 +83,7 @@ const AllPatients = () => {
     <>
       <div className="h-100 p-0 min-h-[200px]">
         <div className="flex justify-between items-center px-4 py-3">
-          <Breadcrumb title={"All Products"} />
+          <Breadcrumb title={"Patients"} />
           <div className="flex items-center">
             <SearchComponent
               searchQuery={searchQuery}

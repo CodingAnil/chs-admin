@@ -38,7 +38,7 @@ const DefaultDashboardLayout = (props) => {
           onClick={(value) => setShowMenu(value)}
         />
       </div>
-      <div id="page-content">
+      <div id="page-content" className="d-flex flex-column min-vh-100">
         <div className="header">
           <NavbarTop
             data={{
@@ -47,7 +47,8 @@ const DefaultDashboardLayout = (props) => {
             }}
           />
         </div>
-        {props.children}
+        <div className="flex-grow-1">{props.children}</div>
+
         <div className="px-6 border-top py-3">
           <Row>
             <Col sm={6} className="text-center text-sm-start mb-2 mb-sm-0">
@@ -56,8 +57,12 @@ const DefaultDashboardLayout = (props) => {
             <Col sm={6} className="text-center text-sm-end">
               <p className="m-0">
                 Copy right{" "}
-                <a href="https://stg.paragongents.com/" target="_blank">
-                  @Paragongents
+                <a
+                  className="m-0 text-blue-500 underline"
+                  href="https://chshealthcare.in/"
+                  target="_blank"
+                >
+                  @chshealthcare
                 </a>
               </p>
             </Col>

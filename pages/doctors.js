@@ -1,11 +1,15 @@
-import React, { useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import AllDoctors from "../components/allDoctors";
+import ComLayout from "../components/layouts/commonLayout";
 
 const Doctors = () => {
   return (
-    <div>
-      <AllDoctors />
-    </div>
+    <>
+      <ComLayout
+        children={<AllDoctors />}
+        title={"Doctor Management/All Doctors"}
+      />
+    </>
   );
 };
 

@@ -33,7 +33,7 @@ const AllDoctors = () => {
     searchQuery,
     setSearchQuery,
     openModelWithItem,
-  } = getMountData("/admin/all-users");
+  } = getMountData("/admin/all-doctors");
 
   console.log(data, "datadatadata");
   const handleDelete = async () => {
@@ -75,15 +75,11 @@ const AllDoctors = () => {
     }
   };
 
-  useEffect(() => {
-    setQuery((pre) => ({ ...pre, type: "doctor" }));
-  }, []);
-
   return (
     <>
       <div className="h-100 p-0 min-h-[200px]">
         <div className="flex justify-between items-center px-4 py-3">
-          <Breadcrumb title={"All Products"} />
+          <Breadcrumb title={"Doctors"} />
           <div className="flex items-center">
             <SearchComponent
               searchQuery={searchQuery}

@@ -17,9 +17,9 @@ import { store } from "../store/store";
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const pageURL = process.env.baseURL + router.pathname;
-  const title = "Paragon Gents Admin";
-  const description = "gay App ";
-  const keywords = "Adult";
+  const title = "CHS Healthcare Admin";
+  const description = "Healthcare";
+  const keywords = "Healthcare";
 
   // Identify the layout, which will be applied conditionally
   const Layout =

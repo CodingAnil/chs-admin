@@ -53,7 +53,7 @@ const ForgetPassword = () => {
             <div className="mb-4">
               <Link href="/">
                 <Image
-                  src="/images/logo/brand-logo.png"
+                  src="/images/logo/chs_logo.png"
                   className="mb-2"
                   alt=""
                 />

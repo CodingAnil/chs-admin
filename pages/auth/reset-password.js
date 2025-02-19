@@ -4,10 +4,10 @@ import Link from "next/link";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import { useRouter } from "next/router";
 import useForm from "../../utils/hooks/formik_hook";
-import {  resetPwdValidate } from "../../utils/validations/auth";
+import { resetPwdValidate } from "../../utils/validations/auth";
 import ButtonSpinner from "../../components/loaders/buttonSpinner";
 import ErrInput from "../../components/common/errorInput";
-import {  callPutApi } from "../../services";
+import { callPutApi } from "../../services";
 import { toastMessage } from "../../utils/configs/toast";
 import { useSearchParams } from "next/navigation";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
@@ -73,7 +73,7 @@ const ResetPassword = () => {
             <div className="mb-4">
               <Link href="/">
                 <Image
-                  src="/images/logo/brand-logo.png"
+                  src="/images/logo/chs_logo.png"
                   className="mb-2"
                   alt=""
                 />
