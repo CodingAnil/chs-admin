@@ -114,7 +114,7 @@ export const getPendingVerifyFor = (imgStatus, vidStatus, rewStatus) => {
     .filter((item) => item.status)
     .map((item) => item.name);
 
-  return `,${pendingItems.join(", ")}`;
+  return `,${pendingItems.join(", ")}`; 
 };
 
 export const capitalizeFirstLetter = (str) => {
