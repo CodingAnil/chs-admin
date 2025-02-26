@@ -4,8 +4,8 @@ const passwordRegex =
 
 export const loginValidate = (values) => {
   const errors = {};
-  if (!values.phoneNumber) {
-    errors.phoneNumber = "Phone Number is required";
+  if (!values.email) {
+    errors.email = "Email or username is required";
   }
   // else if (!emailRwegex.test(values.email)) {
   //   errors.email = "Invalid email address";

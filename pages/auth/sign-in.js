@@ -29,7 +29,6 @@ const SignIn = () => {
     try {
       setLoading(true);
       const response = await callPostApi("admin/login", data);
-      console.log(response, "response");
       if (response?.status) {
         const { accessToken, ...userData } = await response.data;
 
@@ -59,7 +58,7 @@ const SignIn = () => {
     resetForm,
   } = useForm({
     initialValues: {
-      phoneNumber: "",
+      email: "",
       password: "",
     },
     validationFunction: loginValidate,
@@ -97,10 +96,10 @@ const SignIn = () => {
                 <Form.Label className="text-white">Phone Number</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter phoneNumber here"
-                  {...formik.getFieldProps("phoneNumber")}
+                  placeholder="Enter email or username here"
+                  {...formik.getFieldProps("email")}
                 />
-                <ErrInput error={touched.phoneNumber && errors.phoneNumber} />
+                <ErrInput error={touched.email && errors.email} />
               </Form.Group>
               <Form.Group className="mb-3 " controlId="password">
                 <Form.Label className="text-white">Password</Form.Label>
