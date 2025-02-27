@@ -93,7 +93,9 @@ const SignIn = () => {
               }}
             >
               <Form.Group className="mb-3" controlId="username">
-                <Form.Label className="text-white">Phone Number</Form.Label>
+                <Form.Label className="text-white">
+                  Email Or User Name
+                </Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Enter email or username here"
@@ -139,12 +141,15 @@ const SignIn = () => {
                   </Form.Check.Label>
                 </Form.Check> */}
                 <div>
-                  <Link
+                  <p className="mb-4 text-white font-medium">
+                    {/* Please enter your user information. */}
+                  </p>
+                  {/* <Link
                     href="/auth/forgot-password"
                     className="text-white fs-5"
                   >
                     Forgot your password?
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div>

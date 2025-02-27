@@ -127,7 +127,7 @@ const AllDoctors = () => {
                           className="flex items-center space-x-2 text-blue-500 cursor-pointer hover:scale-110"
                         >
                           <FaEye />
-                          <span>{`Dr ${item?.firstName} ${item?.lastName}`}</span>
+                          <span>{`Dr. ${item?.firstName} ${item?.lastName}`}</span>
                         </div>
                       </td>
                       <td className="align-middle">{item?.email}</td>
