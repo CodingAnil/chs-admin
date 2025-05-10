@@ -435,6 +435,10 @@ export const discountValidate = (values) => {
     errors.discount = "Discount must be less than or equal to 100";
   }
 
+  if (values.sellerDiscount && values.sellerDiscount > 100) {
+    errors.sellerDiscount = "Seller discount must be less than or equal to 100";
+  }
+
   if (!values.price) {
     errors.price = "Price is required";
   }

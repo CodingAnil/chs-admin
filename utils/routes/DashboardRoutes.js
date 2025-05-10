@@ -157,6 +157,11 @@ export const SidebarMenu = [
       },
       {
         id: uuid(),
+        link: "/categories-management",
+        name: "Category Management",
+      },
+      {
+        id: uuid(),
         link: "/offers",
         name: "Offers",
       },

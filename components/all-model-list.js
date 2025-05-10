@@ -105,6 +105,7 @@ const AllModalList = () => {
                   <th>Name</th>
                   <th>Price</th>
                   <th>Discount</th>
+                  <th>Seller Discount</th>
                   <th>Stock Quantity</th>
                   <th>Category</th>
                   <th>Status</th>
@@ -127,7 +128,8 @@ const AllModalList = () => {
                         </div>
                       </td>
                       <td className="align-middle">{item?.price}</td>
-                      <td className="align-middle">{item?.discount}</td>
+                      <td className="align-middle">{item?.discount}%</td>
+                      <td className="align-middle">{item?.sellerDiscount || 0}%</td>
                       <td className="align-middle">{item?.stockQuantity}</td>
                       <td className="align-middle">{item?.category}</td>
                       <td className={`align-middle`}>

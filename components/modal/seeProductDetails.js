@@ -83,6 +83,14 @@ const ProductDetails = ({ isOpen, onClose, planData }) => {
               <span className="text-base">{planData?.discount || "N/A"}</span>
             </div>
 
+            {/* Seller Discount */}
+            <div className="flex gap-2">
+              <span className="font-bold text-base text-gray-400">
+                Seller Discount:
+              </span>
+              <span className="text-base">{planData?.sellerDiscount || "N/A"}</span>
+            </div>
+
             {/* Quantity */}
             <div className="flex gap-2">
               <span className="font-bold text-base text-gray-400">

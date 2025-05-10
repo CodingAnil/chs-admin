@@ -79,6 +79,7 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
       description: planData?.description || "",
       price: planData?.price || "",
       discount: planData?.discount || "",
+      sellerDiscount: planData?.sellerDiscount || "",
       quantity: planData?.quantity || "",
       stockQuantity: planData?.stockQuantity || "",
       country: planData?.country || "",
@@ -189,6 +190,19 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
                   <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
                     <input
                       type="number"
+                      placeholder="Enter Seller Discount"
+                      className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
+                      {...formik.getFieldProps("sellerDiscount")}
+                    />
+                  </div>
+                  <div className="mb-5">
+                    <ErrInput error={touched.sellerDiscount && errors.sellerDiscount} />
+                  </div>
+                </div>
+                <div className="w-1/2 pr-2">
+                  <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
+                    <input
+                      type="number"
                       placeholder="Enter Quantity Per/Product(ml)"
                       className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
                       {...formik.getFieldProps("quantity")}
@@ -198,6 +212,9 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
                     <ErrInput error={touched.quantity && errors.quantity} />
                   </div>
                 </div>
+              </div>
+
+              <div className="flex w-full">
                 <div className="w-1/2 pr-2">
                   <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
                     <input
@@ -213,9 +230,7 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
                     />
                   </div>
                 </div>
-              </div>
 
-              <div className="flex w-full">
                 {/* Category Field */}
                 <div className="w-1/2 pr-2">
                   <div className="flex items-center bg-white input-field mb-1 border border-darkGrey100">
