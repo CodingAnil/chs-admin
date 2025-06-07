@@ -177,11 +177,11 @@ export const SidebarMenu = [
         link: "/patients",
         name: "All Patient",
       },
-      {
-        id: uuid(),
-        link: "/appointments",
-        name: "Scheduled Appointments",
-      },
+      // {
+      //   id: uuid(),
+      //   link: "/appointments",
+      //   name: "Scheduled Appointments",
+      // },
     ],
   },
   {
@@ -192,6 +192,12 @@ export const SidebarMenu = [
       { id: uuid(), link: "/doctors", name: "All Doctors" },
       { id: uuid(), link: "/doctor-clinic", name: "Doctor Clinic" },
     ],
+  },
+  {
+    id: uuid(),
+    title: "Appointments",
+    icon: "home",
+    link: "/appointments",
   },
   {
     id: uuid(),

@@ -21,9 +21,25 @@ const useMountData = (baseUrl) => {
     async (baseUrl, noLoading) => {
       setLoading(noLoading ? false : true);
       let url = `${baseUrl}?limit=${pageLimit}&currentPage=${currentPage}`;
-      if (query || searchQuery) {
-        url = `${baseUrl}?limit=${pageLimit}&currentPage=${currentPage}&status=${query}&search=${searchQuery}&type=${query?.type}`;
+      const params = new URLSearchParams();
+      if (searchQuery) {
+        params.append("search", searchQuery);
       }
+      if (query?.status) {
+        params.append("status", query.status);
+      }
+      if (query?.type) {
+        params.append("type", query.type);
+      }
+      if (query?.startDate) {
+        params.append("startDate", query.startDate);
+      }
+      if (query?.endDate) {
+        params.append("endDate", query.endDate);
+      }
+
+      // Append all dynamic filters to the base URL
+      url += `&${params.toString()}`;
 
       try {
         const response = await callGetApi(url);
