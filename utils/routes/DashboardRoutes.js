@@ -201,6 +201,12 @@ export const SidebarMenu = [
   },
   {
     id: uuid(),
+    title: "Order Managements",
+    icon: "home",
+    link: "/orders",
+  },
+  {
+    id: uuid(),
     title: "Settings",
     icon: "layout",
     children: [
