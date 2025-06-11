@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Row,
@@ -11,14 +11,13 @@ import {
   Modal,
   Badge,
   InputGroup,
-} from 'react-bootstrap';
-import Breadcrumb from '../components/common/bread-crump';
-import GoBack from '../components/common/goBack';
-import DateRangePicker from 'react-bootstrap-daterangepicker';
-import 'bootstrap-daterangepicker/daterangepicker.css';
-import { callGetApi } from '../services';
-import { toastMessage } from '../utils/configs/toast';
-
+} from "react-bootstrap";
+import Breadcrumb from "../components/common/bread-crump";
+import GoBack from "../components/common/goBack";
+import DateRangePicker from "react-bootstrap-daterangepicker";
+import "bootstrap-daterangepicker/daterangepicker.css";
+import { callGetApi } from "../services";
+import { toastMessage } from "../utils/configs/toast";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -26,12 +25,15 @@ const Orders = () => {
     totalOrders: 0,
     completedOrders: 0,
     cancelledOrders: 0,
-    totalRevenue: 0
+    totalRevenue: 0,
   });
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
-  const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [dateRange, setDateRange] = useState({
+    startDate: null,
+    endDate: null,
+  });
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,21 +43,17 @@ const Orders = () => {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const response = await callGetApi('/admin/orders/products', {
-        search: searchTerm,
-        status: statusFilter,
-        startDate: dateRange.startDate,
-        endDate: dateRange.endDate,
-        page: currentPage,
-        limit: itemsPerPage
-      });
+      // &startDate=${dateRange.startDate}&endDate=${dateRange.endDate}`
+      const response = await callGetApi(
+        `/admin/orders/products?status=${statusFilter}&search=${searchTerm}&page=${currentPage}&limit=${itemsPerPage}`
+      );
       if (response.status) {
         setOrders(response.data.orders);
         setTotalPages(response.data.totalPages);
       }
     } catch (error) {
-      console.error('Error fetching orders:', error);
-      toastMessage('error', 'Failed to fetch orders');
+      console.error("Error fetching orders:", error);
+      toastMessage("error", "Failed to fetch orders");
     } finally {
       setLoading(false);
     }
@@ -63,13 +61,13 @@ const Orders = () => {
 
   const fetchAnalytics = async () => {
     try {
-      const response = await callGetApi('/admin/orders/analytics');
+      const response = await callGetApi("/admin/orders/analytics");
       if (response.status) {
         setAnalytics(response.data);
       }
     } catch (error) {
-      console.error('Error fetching analytics:', error);
-      toastMessage('error', 'Failed to fetch analytics');
+      console.error("Error fetching analytics:", error);
+      toastMessage("error", "Failed to fetch analytics");
     }
   };
 
@@ -81,20 +79,24 @@ const Orders = () => {
   const handleDateRangeChange = (dates) => {
     setDateRange({
       startDate: dates.startDate.toISOString(),
-      endDate: dates.endDate.toISOString()
+      endDate: dates.endDate.toISOString(),
     });
   };
 
   const getStatusBadge = (status) => {
     const statusColors = {
-      created: 'primary',
-      in_progress: 'info',
-      completed: 'success',
-      cancelled: 'danger',
-      refunded: 'warning',
-      returned: 'secondary'
+      created: "primary",
+      in_progress: "info",
+      completed: "success",
+      cancelled: "danger",
+      refunded: "warning",
+      returned: "secondary",
     };
-    return <Badge bg={statusColors[status] || 'secondary'}>{status.replace('_', ' ')}</Badge>;
+    return (
+      <Badge bg={statusColors[status] || "secondary"}>
+        {status.replace("_", " ")}
+      </Badge>
+    );
   };
 
   const handleOrderClick = async (orderId) => {
@@ -105,8 +107,8 @@ const Orders = () => {
         setShowModal(true);
       }
     } catch (error) {
-      console.error('Error fetching order details:', error);
-      toastMessage('error', 'Failed to fetch order details');
+      console.error("Error fetching order details:", error);
+      toastMessage("error", "Failed to fetch order details");
     }
   };
 
@@ -117,14 +119,14 @@ const Orders = () => {
         <GoBack />
         <Container fluid className="mt-n22 px-6">
           <Breadcrumb title="Orders Management" />
-          
+
           {/* Analytics Boxes */}
           <Row className="mb-4">
             <Col md={3}>
               <Card className="border-0 shadow-sm">
                 <CardBody>
                   <h6 className="text-muted mb-2">Total Orders</h6>
-                  <h3 className="mb-0">{analytics.totalOrders}</h3>
+                  <h3 className="mb-0">{analytics.totalOrders || 0}</h3>
                 </CardBody>
               </Card>
             </Col>
@@ -132,7 +134,9 @@ const Orders = () => {
               <Card className="border-0 shadow-sm">
                 <CardBody>
                   <h6 className="text-muted mb-2">Completed Orders</h6>
-                  <h3 className="mb-0">{analytics.completedOrders}</h3>
+                  <h3 className="mb-0">
+                    {analytics?.ordersByStatus?.created || 0}
+                  </h3>
                 </CardBody>
               </Card>
             </Col>
@@ -140,7 +144,9 @@ const Orders = () => {
               <Card className="border-0 shadow-sm">
                 <CardBody>
                   <h6 className="text-muted mb-2">Cancelled Orders</h6>
-                  <h3 className="mb-0">{analytics.cancelledOrders}</h3>
+                  <h3 className="mb-0">
+                    {analytics?.ordersByStatus?.cancelled || 0}
+                  </h3>
                 </CardBody>
               </Card>
             </Col>
@@ -158,7 +164,8 @@ const Orders = () => {
           <Card className="mb-4">
             <CardBody>
               <Row>
-                <Col md={6}>
+                <Col md={3}>{">>"}</Col>
+                <Col md={5}>
                   <InputGroup>
                     <Form.Control
                       placeholder="Search orders..."
@@ -170,7 +177,7 @@ const Orders = () => {
                     </Button>
                   </InputGroup>
                 </Col>
-                <Col md={6}>
+                <Col md={4}>
                   <Form.Select
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
@@ -218,7 +225,7 @@ const Orders = () => {
                 <Table hover>
                   <thead>
                     <tr>
-                      <th>Order ID</th>
+                      <th>Order </th>
                       <th>Customer</th>
                       <th>Date</th>
                       <th>Total Amount</th>
@@ -230,9 +237,17 @@ const Orders = () => {
                   <tbody>
                     {orders.map((order) => (
                       <tr key={order._id}>
-                        <td>{order._id}</td>
-                        <td>{order.userId?.profile?.firstName || 'N/A'}</td>
-                        <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+                        <td>
+                          {order?.products
+                            ?.map((it) => it?.productId?.name)
+                            ?.join(",")}
+                        </td>
+                        <td>
+                          {order?.userId?.name || order?.userId?.email || "N/A"}
+                        </td>
+                        <td>
+                          {new Date(order.createdAt).toLocaleDateString()}
+                        </td>
                         <td>₹{order.totalAmount.toFixed(2)}</td>
                         <td>{getStatusBadge(order.status)}</td>
                         <td>{getStatusBadge(order.paymentStatus)}</td>
@@ -242,7 +257,7 @@ const Orders = () => {
                             size="sm"
                             onClick={() => handleOrderClick(order._id)}
                           >
-                            <i className="fas fa-eye"></i> View Details
+                            <i className="fas fa-eye"></i> Details
                           </Button>
                         </td>
                       </tr>
@@ -309,7 +324,7 @@ const Orders = () => {
                               <img
                                 src={item.productId.image}
                                 alt={item.productId.name}
-                                style={{ width: '50px', marginRight: '10px' }}
+                                style={{ width: "50px", marginRight: "10px" }}
                               />
                               <div>
                                 <div>{item.productId.name}</div>
@@ -335,22 +350,25 @@ const Orders = () => {
                         <strong>Order ID:</strong> {selectedOrder._id}
                       </div>
                       <div className="mb-3">
-                        <strong>Order Date:</strong>{' '}
+                        <strong>Order Date:</strong>{" "}
                         {new Date(selectedOrder.createdAt).toLocaleDateString()}
                       </div>
                       <div className="mb-3">
-                        <strong>Status:</strong> {getStatusBadge(selectedOrder.status)}
+                        <strong>Status:</strong>{" "}
+                        {getStatusBadge(selectedOrder.status)}
                       </div>
                       <div className="mb-3">
-                        <strong>Payment Status:</strong>{' '}
+                        <strong>Payment Status:</strong>{" "}
                         {getStatusBadge(selectedOrder.paymentStatus)}
                       </div>
                       <div className="mb-3">
-                        <strong>Payment Method:</strong> {selectedOrder.paymentMethod}
+                        <strong>Payment Method:</strong>{" "}
+                        {selectedOrder.paymentMethod}
                       </div>
                       <hr />
                       <div className="mb-3">
-                        <strong>Total Amount:</strong> ₹{selectedOrder.totalAmount.toFixed(2)}
+                        <strong>Total Amount:</strong> ₹
+                        {selectedOrder.totalAmount.toFixed(2)}
                       </div>
                     </Card.Body>
                   </Card>
@@ -361,9 +379,11 @@ const Orders = () => {
                       <address className="mb-0">
                         {selectedOrder.shippingAddress.street}
                         <br />
-                        {selectedOrder.shippingAddress.city}, {selectedOrder.shippingAddress.state}
+                        {selectedOrder.shippingAddress.city},{" "}
+                        {selectedOrder.shippingAddress.state}
                         <br />
-                        {selectedOrder.shippingAddress.country} - {selectedOrder.shippingAddress.zipCode}
+                        {selectedOrder.shippingAddress.country} -{" "}
+                        {selectedOrder.shippingAddress.zipCode}
                       </address>
                     </Card.Body>
                   </Card>
@@ -373,12 +393,15 @@ const Orders = () => {
                       <Card.Body>
                         <h5>Tracking Information</h5>
                         <div className="mb-3">
-                          <strong>Tracking Number:</strong> {selectedOrder.trackingNumber}
+                          <strong>Tracking Number:</strong>{" "}
+                          {selectedOrder.trackingNumber}
                         </div>
                         {selectedOrder.estimatedDelivery && (
                           <div>
-                            <strong>Estimated Delivery:</strong>{' '}
-                            {new Date(selectedOrder.estimatedDelivery).toLocaleDateString()}
+                            <strong>Estimated Delivery:</strong>{" "}
+                            {new Date(
+                              selectedOrder.estimatedDelivery
+                            ).toLocaleDateString()}
                           </div>
                         )}
                       </Card.Body>
@@ -399,4 +422,4 @@ const Orders = () => {
   );
 };
 
-export default Orders; 
+export default Orders;
