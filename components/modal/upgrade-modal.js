@@ -5,11 +5,29 @@ import { callPostApi, callPutApi } from "../../services";
 import ButtonSpinner from "../../components/loaders/buttonSpinner";
 import ErrInput from "../../components/common/errorInput";
 import { discountValidate } from "../../utils/validations/profile";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { categoryOptions } from "../../utils/constants";
 
-const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
+const AddNewProducts = ({ isOpen, onClose, planData, getAllData, categories }) => {
   const [prodImage, setPodImage] = useState(null);
+  const [mergedCategories, setMergedCategories] = useState({});
+  const [allCategoryNames, setAllCategoryNames] = useState([]);
+
+  // Merge static and dynamic categories
+  useEffect(() => {
+    if (categories) {
+      // Merge static and dynamic categories
+      const merged = { ...categoryOptions, ...categories };
+      setMergedCategories(merged);
+      
+      // Get all unique category names
+      const staticCategories = Object.keys(categoryOptions);
+      const dynamicCategories = Object.keys(categories || {});
+      const allCategories = [...new Set([...staticCategories, ...dynamicCategories])];
+      setAllCategoryNames(allCategories);
+    }
+  }, [categories]);
+
   // Handle form submission
   const handleFormSubmit = async (data) => {
     try {
@@ -62,6 +80,15 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
     }
   };
 
+  // Get subcategories for selected category
+  const getSubcategoriesForCategory = (categoryName) => {
+    if (!categoryName || !mergedCategories[categoryName]) {
+      return [];
+    }
+    return mergedCategories[categoryName];
+  };
+
+  console.log(categories,"categories");
   console.log(planData, "openModelWithItem");
   const {
     loading,
@@ -238,7 +265,6 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
                       className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
                       {...formik.getFieldProps("category")}
                       onChange={(e) => {
-                        // setSelectedCategory(e.target.value);
                         formik.setFieldValue("category", e.target.value);
                         formik.setFieldValue("subcategory", ""); // Reset subcategory when category changes
                       }}
@@ -246,7 +272,7 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
                       <option value="" disabled>
                         Select category
                       </option>
-                      {Object.keys(categoryOptions).map((category) => (
+                      {allCategoryNames.map((category) => (
                         <option key={category} value={category}>
                           {category}
                         </option>
@@ -266,7 +292,7 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
                     <select
                       className="block border-0 bg-transparent outline-0 text-black text-sm placeholder:text-g w-full"
                       {...formik.getFieldProps("subcategory")}
-                      // disabled={!values.category}
+                      disabled={!values.category}
                     >
                       <option value="" disabled>
                         {!values.category
@@ -274,7 +300,7 @@ const AddNewProducts = ({ isOpen, onClose, planData, getAllData }) => {
                           : "Select sub-category"}
                       </option>
                       {values.category &&
-                        categoryOptions[values.category].map((subcategory) => (
+                        getSubcategoriesForCategory(values.category).map((subcategory) => (
                           <option key={subcategory} value={subcategory}>
                             {subcategory}
                           </option>

@@ -34,6 +34,9 @@ const AllModalList = () => {
     openModelWithItem,
   } = getMountData("/admin/products");
 
+  const { data: categories, isLoading: categoriesLoading } = getMountData("/admin/categories/dropdown");
+
+ 
   const handleDelete = async () => {
     try {
       const response = await callDeleteApi(`/admin/product/${coustomData._id}`);
@@ -205,6 +208,7 @@ const AllModalList = () => {
         onClose={openModelWithItem}
         planData={coustomData}
         getAllData={getAllData}
+        categories={Object?.keys(categories)?.length > 0 ?categories:{} }
       />
       <ProductDetails
         isOpen={isOpen == "view"}
